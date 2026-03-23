@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media AI Manager | Text + Images</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .post-preview {
+            background: #f9f9f9;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        .post-content {
+            padding: 20px;
+        }
+        
+        .post-caption {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .post-hashtags {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #999;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pricing-card {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Social Media AI Manager</h1>
+            <p>Generate stunning posts with AI — Text + Images in seconds!</p>
+        </div>
+        
+        <div class="card">
+            <h2>✨ Create Your Post</h2>
+            
+            <div class="form-group">
+                <label>📝 Topic / Theme</label>
+                <input type="text" id="topic" placeholder="e.g., Digital marketing, Healthy recipes, Travel tips" value="Social media tips">
+            </div>
+            
+            <div class="form-group">
+                <label>📱 Platform</label>
+                <select id="platform">
+                    <option value="instagram">📸 Instagram (1080x1080)</option>
+                    <option value="linkedin">💼 LinkedIn (1200x627)</option>
+                    <option value="twitter">🐦 Twitter/X (1200x675)</option>
+                    <option value="facebook">📘 Facebook (1200x630)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>🎭 Tone</label>
+                <select id="tone">
+                    <option value="professional">Professional</option>
+                    <option value="casual">Casual & Friendly</option>
+                    <option value="funny">Funny & Witty</option>
+                    <option value="inspirational">Inspirational</option>
+                </select>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="includeImage" checked>
+                <label>🎨 Generate AI Image with post</label>
+            </div>
+            
+            <button onclick="generatePost()">🚀 Generate Post Now</button>
+        </div>
+        
+        <div id="result" style="display: none;" class="card result">
+            <h2>📱 Your AI-Generated Post</h2>
+            <div id="postContent"></div>
+        </div>
+        
+        <div class="card">
+            <h2>💰 Plans & Pricing</h2>
+            <div class="pricing">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price">$0</div>
+                    <p>5 posts/month<br>Basic AI</p>
+                    <button onclick="alert('Start free!')">Get Started</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Pro</h3>
+                    <div class="price">$29<span style="font-size:14px">/month</span></div>
+                    <p>500 posts/month<br>Text + Images<br>All platforms<br>Schedule posts</p>
+                    <button onclick="buyPro()">Upgrade</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Agency</h3>
+                    <div class="price">$99<span style="font-size:14px">/month</span></div>
+                    <p>Unlimited posts<br>Team accounts<br>API access<br>Priority support</p>
+                    <button onclick="buyAgency()">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = "http://localhost:8000";
+        
+        async function generatePost() {
+            const topic = document.getElementById('topic').value;
+            const platform = document.getElementById('platform').value;
+            const tone = document.getElementById('tone').value;
+            const includeImage = document.getElementById('includeImage').checked;
+            
+            if (!topic) {
+                alert("Please enter a topic!");
+                return;
+            }
+            
+            const resultDiv = document.getElementById('result');
+            const postContent = document.getElementById('postContent');
+            
+            resultDiv.style.display = 'block';
+            postContent.innerHTML = '<div class="loading">🤖 AI is creating your post with image...</div>';
+            
+            try {
+                const response = await fetch(`${API_URL}/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        topic: topic,
+                        platform: platform,
+                        tone: tone,
+                        include_image: includeImage
+                    })
+                });
+                
+                const data = await response.json();
+                displayPost(data);
+                
+            } catch (error) {
+                console.error("Error:", error);
+                // Demo mode - show example
+                displayDemoPost(topic, platform, tone, includeImage);
+            }
+        }
+        
+        function displayPost(data) {
+            const container = document.getElementById('postContent');
+            
+            let imageHtml = '';
+            if (data.image_url) {
+                imageHtml = `<img src="${data.image_url}" alt="Generated image" class="post-image" onerror="this.src='https://via.placeholder.com/1080x1080?text=AI+Image+Here'">`;
+            }
+            
+            container.innerHTML = `
+                <div class="post-preview">
+                    ${imageHtml}
+                    <div class="post-content">
+                        <div class="post-caption">${data.caption}</div>
+                        <div class="post-hashtags">${data.hashtags}</div>
+                        <div class="post-meta">
+                            <span>📱 ${data.platform}</span>
+                            <span>🎭 ${data.tone}</span>
+                            <span>📝 ${data.topic}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button onclick="copyText()">📋 Copy Caption</button>
+                    <button onclick="downloadImage()">💾 Download Image</button>
+                </div>
+            `;
+        }
+        
+        function displayDemoPost(topic, platform, tone, includeImage) {
+            const container = document.getElementById('postContent');
+            
+            const captions = {
+                professional: `🚀 Unlock your potential with these proven ${topic} strategies! \n\nAfter working with 100+ clients, here's what actually works:\n\n1. Consistency is key\n2. Know your audience\n3. Track your metrics\n4. Iterate and improve\n\nWhat's your biggest challenge with ${topic}? Let me know below! 👇`,
+                casual: `Hey friends! 🌟 Just discovered some awesome ${topic} tips that I had to share! \n\nWho else is working on improving their ${topic} game? Drop a 🙌 in the comments!`,
+                funny: `Me trying to master ${topic}: 🤡\n\nBut seriously, here are 3 tips that actually work (I promise no clowning around):\n\n1. Start before you're ready\n2. Make mistakes (they're funny later)\n3. Keep going!\n\nSave this for when you need a laugh! 😂`,
+                inspirational: `✨ Every expert was once a beginner. Your journey with ${topic} starts today. \n\nBelieve in yourself. Take that first step. The rest will follow. \n\nYou've got this! 💪`
+            };
+            
+            const hashtags = `#${topic.replace(/ /g, '')} #socialmedia #tips #growth #success #viral #contentcreator`;
+            
+            let imageHtml = '';
+            if (includeImage) {
+                imageHtml = `<img src="https://pollinations.ai/p/${topic}%20social%20media%20post%20${tone}%20style?width=1080&height=1080" class="post-image" style="width:100%">`;
+            }
+            
+            container.innerHTML = `
+                <div class="post-preview">
+                    ${imageHtml}
+                    <div class="post-content">
+                        <div class="post-caption">${captions[tone] || captions.professional}</div>
+                        <div class="post-hashtags">${hashtags}</div>
+                        <div class="post-meta">
+                            <span>📱 ${platform}</span>
+                            <span>🎭 ${tone}</span>
+                            <span>📝 ${topic}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center; padding: 15px; background: #e8f0fe; border-radius: 10px;">
+                    ✨ This is a demo. Connect the backend to get real AI-generated posts with custom images!
+                </div>
+            `;
+        }
+        
+        function copyText() {
+            const caption = document.querySelector('.post-caption')?.innerText;
+            if (caption) {
+                navigator.clipboard.writeText(caption);
+                alert("✅ Caption copied to clipboard!");
+            }
+        }
+        
+        function downloadImage() {
+            const img = document.querySelector('.post-image');
+            if (img && img.src) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = 'social-media-post.png';
+                link.click();
+                alert("💾 Image downloading...");
+            } else {
+                alert("No image to download. Enable image generation!");
+            }
+        }
+        
+        function buyPro() {
+            alert("Pro plan coming soon! 🚀\n\nGet unlimited posts with AI images for $29/month");
+        }
+        
+        function buyAgency() {
+            alert("Contact us for custom pricing: sales@socialmediaai.com");
+        }
+    </script>
+</body>
+</html>
